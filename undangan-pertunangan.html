@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Undangan ke Majlis Pertunangan — Irfan & Aisyah</title>
+<style>
+  :root{
+    --sky: #aecfe0;
+    --sky-deep: #9dc2d6;
+    --card: #cfe1ea;
+    --card-soft: #dcebf1;
+    --ink: #2f4569;
+    --ink-soft: #3d5a86;
+    --blush: #fbe4e6;
+    --ribbon: #e78fa0;
+    --ribbon-dark: #d97188;
+    --seal: #d9a9c4;
+    --seal-dark: #c084a8;
+    --leaf: #4c6b4f;
+    --flower-blue: #7f9fd6;
+    --flower-blue-dark: #5f7fc0;
+    --gold: #b98f4f;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--sky);
+    font-family: 'Georgia', 'Iowan Old Style', serif;
+    color: var(--ink);
+    overflow: hidden;
+    height: 100%;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  .stage {
+    position: relative;
+    height: 100dvh;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  /* ============ SCRIPT FONT (approximation via styling) ============ */
+  .script {
+    font-family: 'Brush Script MT', 'Segoe Script', cursive;
+    font-style: italic;
+  }
+
+  /* =====================================================================
+     SCREEN 1 — ENVELOPE
+     ===================================================================== */
+  #envelope-screen {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--sky);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: opacity 0.7s ease, transform 0.7s ease;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    z-index: 2;
+  }
+
+  #envelope-screen.hidden {
+    opacity: 0;
+    transform: scale(1.05);
+    pointer-events: none;
+  }
+
+  .envelope-wrap {
+    position: relative;
+    width: min(300px, 72vw);
+    aspect-ratio: 560 / 340;
+    transition: transform 0.5s ease;
+  }
+
+  .tap-hint {
+    position: absolute;
+    bottom: 8%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    letter-spacing: 1px;
+    opacity: 0.85;
+    animation: pulseHint 1.8s ease-in-out infinite;
+  }
+
+  @keyframes pulseHint {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+  }
+
+  .envelope-wrap:hover { transform: translateY(-4px); }
+
+  .envelope-body {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(155deg, #e8d3ac 0%, #ddc190 55%, #d3b483 100%);
+    border-radius: 4px;
+    box-shadow: 0 25px 50px -20px rgba(30, 50, 80, 0.45), 0 8px 18px rgba(30,50,80,0.15);
+  }
+
+  .envelope-body::before,
+  .envelope-body::after,
+  .flap-left,
+  .flap-right {
+    content: '';
+    position: absolute;
+    background: linear-gradient(155deg, #e2c99a, #cfb17e);
+  }
+
+  /* triangular flaps drawn with clip-path */
+  .flap-top {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 62%;
+    background: linear-gradient(160deg, #ecd9b3, #ddc190);
+    clip-path: polygon(0 0, 100% 0, 50% 68%);
+    filter: drop-shadow(0 2px 3px rgba(120,90,50,0.25));
+  }
+
+  .flap-left {
+    top: 0; left: 0; bottom: 0; width: 52%;
+    clip-path: polygon(0 0, 0 100%, 62% 50%);
+    background: linear-gradient(120deg, #e6d1a4, #d6ba86);
+    opacity: 0.9;
+  }
+  .flap-right {
+    top: 0; right: 0; bottom: 0; width: 52%;
+    clip-path: polygon(100% 0, 100% 100%, 38% 50%);
+    background: linear-gradient(240deg, #e6d1a4, #d6ba86);
+    opacity: 0.9;
+  }
+
+  .envelope-texture {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(circle at 15% 20%, rgba(140,100,50,0.10), transparent 40%),
+      radial-gradient(circle at 80% 75%, rgba(140,100,50,0.12), transparent 45%),
+      radial-gradient(circle at 60% 30%, rgba(255,255,255,0.15), transparent 35%);
+    mix-blend-mode: multiply;
+    pointer-events: none;
+  }
+
+  /* wax seal */
+  .seal {
+    position: absolute;
+    top: 43%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 15%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #e3bdd4, var(--seal) 55%, var(--seal-dark) 100%);
+    box-shadow:
+      0 6px 10px rgba(90, 50, 70, 0.35),
+      inset 0 2px 4px rgba(255,255,255,0.4),
+      inset 0 -4px 8px rgba(90,40,60,0.35);
+    z-index: 3;
+  }
+  .seal::after {
+    content: '';
+    position: absolute;
+    inset: 18%;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.35);
+  }
+
+  /* baby's breath sprig above seal */
+  .sprig {
+    position: absolute;
+    top: 20%;
+    left: 53%;
+    width: 14%;
+    transform: translateX(-50%);
+    z-index: 2;
+  }
+
+  /* ribbon bow top-left */
+  .bow {
+    position: absolute;
+    top: -13%;
+    left: 6%;
+    width: 32%;
+    z-index: 4;
+    filter: drop-shadow(0 6px 8px rgba(90,20,40,0.25));
+  }
+
+  .corner-flowers {
+    position: absolute;
+    bottom: -14%;
+    right: -6%;
+    width: 40%;
+    z-index: 4;
+  }
+
+  /* =====================================================================
+     SCREEN 2 — INVITATION
+     ===================================================================== */
+  #invite-screen {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    background: var(--sky);
+    padding: clamp(40px, 10vw, 64px) clamp(16px, 5vw, 20px) 70px;
+    padding-bottom: calc(70px + env(safe-area-inset-bottom));
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.8s ease 0.15s, transform 0.8s ease 0.15s;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  #invite-screen.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .invite-inner {
+    max-width: 400px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .eyebrow {
+    text-align: center;
+    color: var(--ink);
+    font-size: clamp(1.25rem, 5.5vw, 1.5rem);
+    line-height: 1.3;
+    margin-bottom: clamp(24px, 6vw, 34px);
+    font-family: 'Brush Script MT', 'Segoe Script', cursive;
+    font-style: italic;
+  }
+
+  .monogram-card {
+    position: relative;
+    background: linear-gradient(180deg, var(--blush), #fbeaec);
+    width: 70%;
+    margin: 0 auto clamp(40px, 9vw, 56px);
+    padding: clamp(30px, 8vw, 42px) 10px clamp(26px, 6vw, 34px);
+    text-align: center;
+    box-shadow: 0 18px 40px -18px rgba(20, 40, 70, 0.35);
+  }
+
+  .monogram-card .letters {
+    font-size: clamp(2.5rem, 11vw, 3.6rem);
+    line-height: 1.15;
+    color: var(--ink);
+    letter-spacing: 2px;
+    font-family: 'Playfair Display', 'Times New Roman', serif;
+  }
+
+  .monogram-card .names {
+    margin-top: 18px;
+    font-size: clamp(1rem, 4vw, 1.15rem);
+    letter-spacing: 0.5px;
+    color: var(--ink);
+  }
+
+  .monogram-card .date {
+    margin-top: 12px;
+    font-size: clamp(0.82rem, 3.2vw, 0.92rem);
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+
+  .monogram-flowers-left {
+    position: absolute;
+    top: 46%;
+    left: -20%;
+    width: 42%;
+  }
+  .monogram-flowers-right {
+    position: absolute;
+    top: -6%;
+    right: -18%;
+    width: 34%;
+  }
+
+  .play-btn {
+    display: block;
+    margin: clamp(20px, 6vw, 30px) auto clamp(34px, 8vw, 46px);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #9ab6ea, #7e9fdf 70%);
+    border: none;
+    box-shadow: 0 8px 16px -6px rgba(30,50,90,0.5);
+    cursor: pointer;
+    position: relative;
+  }
+  .play-btn::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 55%;
+    transform: translate(-50%, -50%);
+    border-style: solid;
+    border-width: 8px 0 8px 13px;
+    border-color: transparent transparent transparent #fff;
+  }
+
+  .play-btn.paused::after {
+    content: '';
+    border: none;
+    left: 50%;
+    width: 4px;
+    height: 16px;
+    background: #fff;
+    box-shadow: 6px 0 0 #fff;
+  }
+
+  .info-card {
+    position: relative;
+    background: linear-gradient(200deg, var(--card-soft), var(--card));
+    border-radius: 24px;
+    padding: clamp(30px, 8vw, 40px) clamp(18px, 5vw, 28px) clamp(34px, 8vw, 44px);
+    text-align: center;
+    margin-bottom: clamp(36px, 9vw, 56px);
+    box-shadow: 0 20px 40px -22px rgba(20,40,70,0.35);
+  }
+
+  .info-card .heading {
+    font-size: clamp(1.25rem, 5vw, 1.5rem);
+    margin-bottom: 6px;
+    font-family: 'Brush Script MT', 'Segoe Script', cursive;
+    font-style: italic;
+  }
+
+  .info-card .icon {
+    font-size: 1.3rem;
+    margin: 6px 0 14px;
+  }
+
+  .info-card .value {
+    font-size: clamp(0.9rem, 3.8vw, 1.02rem);
+    line-height: 1.55;
+    margin-bottom: 22px;
+  }
+
+  .map-btn {
+    display: inline-block;
+    background: var(--ink);
+    color: var(--card-soft);
+    font-size: 0.75rem;
+    letter-spacing: 1.5px;
+    padding: 9px 18px;
+    text-decoration: underline;
+    border-radius: 3px;
+    margin-bottom: 26px;
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+  }
+
+  .corner-decor {
+    position: absolute;
+    width: 30%;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .decor-tl { top: -10%; left: -10%; }
+  .decor-br { bottom: -10%; right: -10%; }
+
+  /* Timeline */
+  .timeline {
+    position: relative;
+    margin-top: 26px;
+    padding: 0;
+  }
+
+  .t-row {
+    display: grid;
+    grid-template-columns: 1fr 68px 1fr;
+    align-items: center;
+    min-height: 60px;
+  }
+
+  .t-side {
+    font-size: clamp(0.72rem, 3vw, 0.82rem);
+    line-height: 1.25;
+    text-align: center;
+    padding: 0 2px;
+  }
+
+  .t-side .t-icon { font-size: 1.3rem; display: block; margin-bottom: 4px; }
+
+  .t-time {
+    text-align: center;
+    font-size: clamp(0.9rem, 3.8vw, 1.05rem);
+    font-weight: 600;
+    color: var(--ink);
+    position: relative;
+  }
+
+  .t-connector {
+    grid-column: 2;
+    width: 1px;
+    height: 28px;
+    background: var(--ink-soft);
+    opacity: 0.4;
+    margin: 0 auto;
+  }
+
+  .footer-note {
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    margin-top: 10px;
+  }
+
+  @media (max-width: 420px) {
+    .monogram-card { width: 78%; }
+  }
+
+  @media (max-width: 340px) {
+    .monogram-card { width: 84%; }
+    .t-row { grid-template-columns: 1fr 56px 1fr; }
+    .corner-decor { width: 26%; }
+  }
+</style>
+</head>
+<body>
+
+<div class="stage">
+
+  <!-- ================= SCREEN 1: ENVELOPE ================= -->
+  <div id="envelope-screen" onclick="openInvite()">
+    <div class="envelope-wrap">
+      <div class="envelope-body"></div>
+      <div class="flap-left"></div>
+      <div class="flap-right"></div>
+      <div class="flap-top"></div>
+      <div class="envelope-texture"></div>
+
+      <!-- ribbon bow -->
+      <svg class="bow" viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg">
+        <path d="M100 80 C60 20, 10 20, 15 55 C18 85, 60 85, 100 80Z" fill="var(--ribbon)" stroke="var(--ribbon-dark)" stroke-width="2"/>
+        <path d="M100 80 C140 20, 190 20, 185 55 C182 85, 140 85, 100 80Z" fill="var(--ribbon)" stroke="var(--ribbon-dark)" stroke-width="2"/>
+        <path d="M100 80 C90 105, 70 130, 78 138 C85 145, 100 118, 100 80Z" fill="var(--ribbon)" stroke="var(--ribbon-dark)" stroke-width="2"/>
+        <circle cx="100" cy="80" r="11" fill="var(--ribbon-dark)"/>
+      </svg>
+
+      <!-- baby's breath sprig -->
+      <svg class="sprig" viewBox="0 0 60 90" xmlns="http://www.w3.org/2000/svg">
+        <path d="M30 90 L26 30 M26 30 L14 10 M26 30 L34 6 M26 30 L22 45" stroke="#7c8f66" stroke-width="1.4" fill="none"/>
+        <circle cx="14" cy="10" r="3" fill="#fdfdf7"/>
+        <circle cx="34" cy="6" r="3" fill="#fdfdf7"/>
+        <circle cx="22" cy="20" r="2.5" fill="#fdfdf7"/>
+        <circle cx="30" cy="14" r="2.5" fill="#fdfdf7"/>
+        <circle cx="18" cy="34" r="2.5" fill="#fdfdf7"/>
+      </svg>
+
+      <!-- corner flower bouquet -->
+      <svg class="corner-flowers" viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
+        <g stroke="var(--leaf)" stroke-width="2" fill="none">
+          <path d="M100 180 C95 130 100 90 115 55"/>
+          <path d="M100 130 C80 120 65 110 55 100"/>
+          <path d="M105 100 C120 90 130 80 140 65"/>
+        </g>
+        <ellipse cx="60" cy="105" rx="16" ry="10" fill="#3e5c40" transform="rotate(-30 60 105)"/>
+        <ellipse cx="135" cy="70" rx="16" ry="10" fill="#3e5c40" transform="rotate(30 135 70)"/>
+        <ellipse cx="100" cy="150" rx="14" ry="9" fill="#4c6b4f" transform="rotate(-10 100 150)"/>
+
+        <!-- hydrangea cluster (small dots) -->
+        <g fill="var(--flower-blue)">
+          <circle cx="35" cy="130" r="5"/><circle cx="45" cy="122" r="5"/><circle cx="55" cy="132" r="5"/>
+          <circle cx="42" cy="140" r="5"/><circle cx="50" cy="146" r="5"/><circle cx="30" cy="142" r="5"/>
+        </g>
+        <!-- carnation top -->
+        <g fill="var(--flower-blue-dark)">
+          <circle cx="118" cy="55" r="6"/><circle cx="128" cy="48" r="5"/><circle cx="112" cy="45" r="5"/>
+        </g>
+        <!-- rose -->
+        <g>
+          <circle cx="150" cy="115" r="22" fill="#c8dcee"/>
+          <circle cx="150" cy="115" r="15" fill="#b6cfe8"/>
+          <circle cx="150" cy="115" r="8" fill="#a3c1e0"/>
+        </g>
+      </svg>
+    </div>
+    <div class="tap-hint">tap to open</div>
+  </div>
+
+  <!-- ================= SCREEN 2: INVITATION ================= -->
+  <div id="invite-screen">
+    <div class="invite-inner">
+
+      <div class="eyebrow">Undangan ke Majlis<br>Pertunangan</div>
+
+      <div class="monogram-card">
+        <!-- decorative flowers around monogram -->
+        <svg class="monogram-flowers-left" viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
+          <g stroke="var(--leaf)" stroke-width="2" fill="none">
+            <path d="M100 220 C95 160 100 110 120 70"/>
+            <path d="M100 160 C75 150 55 138 40 125"/>
+          </g>
+          <g fill="var(--flower-blue)">
+            <circle cx="45" cy="140" r="6"/><circle cx="58" cy="130" r="6"/><circle cx="70" cy="142" r="6"/>
+            <circle cx="55" cy="152" r="6"/><circle cx="40" cy="155" r="6"/>
+          </g>
+          <g fill="#f3c9d4">
+            <circle cx="120" cy="65" r="7"/><circle cx="135" cy="75" r="6"/><circle cx="110" cy="80" r="6"/>
+          </g>
+          <circle cx="150" cy="100" r="18" fill="#c8dcee"/>
+          <circle cx="150" cy="100" r="10" fill="#a3c1e0"/>
+        </svg>
+
+        <svg class="monogram-flowers-right" viewBox="0 0 160 140" xmlns="http://www.w3.org/2000/svg">
+          <g fill="#f3c9d4">
+            <circle cx="30" cy="30" r="10"/><circle cx="48" cy="22" r="8"/><circle cx="55" cy="42" r="9"/>
+          </g>
+          <g fill="var(--flower-blue-dark)" opacity="0.9">
+            <circle cx="90" cy="60" r="6"/><circle cx="100" cy="50" r="6"/><circle cx="108" cy="65" r="6"/>
+          </g>
+          <path d="M30 30 C25 55 35 80 45 100" stroke="var(--leaf)" stroke-width="2" fill="none"/>
+        </svg>
+
+        <div class="letters">I<br>A</div>
+        <div class="names">Irfan &amp; Aisyah</div>
+        <div class="date">Ahad<br>23 Ogos 2026</div>
+      </div>
+
+      <!-- INFO CARD -->
+      <div class="info-card">
+        <svg class="corner-decor decor-tl" viewBox="0 0 160 140" xmlns="http://www.w3.org/2000/svg">
+          <g fill="var(--flower-blue)"><circle cx="40" cy="40" r="9"/><circle cx="55" cy="30" r="8"/><circle cx="60" cy="52" r="8"/></g>
+          <g fill="#f3c9d4"><circle cx="80" cy="20" r="7"/><circle cx="95" cy="30" r="6"/></g>
+          <path d="M40 40 C35 65 45 90 55 110" stroke="var(--leaf)" stroke-width="2" fill="none"/>
+        </svg>
+        <svg class="corner-decor decor-br" viewBox="0 0 160 140" xmlns="http://www.w3.org/2000/svg">
+          <g fill="var(--flower-blue-dark)"><circle cx="120" cy="100" r="9"/><circle cx="105" cy="110" r="8"/><circle cx="100" cy="88" r="8"/></g>
+          <g fill="#f3c9d4"><circle cx="80" cy="120" r="7"/><circle cx="65" cy="108" r="6"/></g>
+          <path d="M120 100 C125 75 115 50 105 30" stroke="var(--leaf)" stroke-width="2" fill="none"/>
+        </svg>
+
+        <div class="heading">Pada Hari</div>
+        <div class="icon">📅</div>
+        <div class="value">Ahad, 23 Ogos 2026</div>
+
+        <div class="heading">Bertempat Di</div>
+        <div class="icon">📍</div>
+        <div class="value">7, Jalan Restu 5, Taman Sri Puteri,<br>Meru, 41050 Klang, Selangor</div>
+        <button class="map-btn">PETA LOKASI</button>
+
+        <div class="heading">Masa</div>
+        <div class="icon">🕐</div>
+        <div class="value" style="margin-bottom:0;">9.30am–2pm</div>
+      </div>
+
+      <!-- ITINERARY CARD -->
+      <div class="info-card" style="padding-bottom:52px;">
+        <svg class="corner-decor decor-tl" viewBox="0 0 160 140" xmlns="http://www.w3.org/2000/svg">
+          <g fill="var(--flower-blue)"><circle cx="40" cy="40" r="9"/><circle cx="55" cy="30" r="8"/><circle cx="60" cy="52" r="8"/></g>
+          <g fill="#f3c9d4"><circle cx="80" cy="20" r="7"/><circle cx="95" cy="30" r="6"/></g>
+          <path d="M40 40 C35 65 45 90 55 110" stroke="var(--leaf)" stroke-width="2" fill="none"/>
+        </svg>
+        <svg class="corner-decor decor-br" viewBox="0 0 160 140" xmlns="http://www.w3.org/2000/svg">
+          <g fill="var(--flower-blue-dark)"><circle cx="120" cy="100" r="9"/><circle cx="105" cy="110" r="8"/><circle cx="100" cy="88" r="8"/></g>
+          <g fill="#f3c9d4"><circle cx="80" cy="120" r="7"/><circle cx="65" cy="108" r="6"/></g>
+          <path d="M120 100 C125 75 115 50 105 30" stroke="var(--leaf)" stroke-width="2" fill="none"/>
+        </svg>
+
+        <div class="heading" style="margin-bottom:26px;">Atur Cara Majlis</div>
+
+        <div class="timeline">
+          <div class="t-row">
+            <div class="t-side"><span class="t-icon">🤝</span>ketibaan jemputan</div>
+            <div class="t-time">9.30am</div>
+            <div class="t-side"></div>
+          </div>
+          <div class="t-row"><div></div><div class="t-connector"></div><div></div></div>
+
+          <div class="t-row">
+            <div class="t-side"></div>
+            <div class="t-time">11am</div>
+            <div class="t-side"><span class="t-icon">💍</span>sarung cincin</div>
+          </div>
+          <div class="t-row"><div></div><div class="t-connector"></div><div></div></div>
+
+          <div class="t-row">
+            <div class="t-side"><span class="t-icon">📷</span>Sesi bergambar</div>
+            <div class="t-time">12pm</div>
+            <div class="t-side"></div>
+          </div>
+          <div class="t-row"><div></div><div class="t-connector"></div><div></div></div>
+
+          <div class="t-row">
+            <div class="t-side"></div>
+            <div class="t-time">2pm</div>
+            <div class="t-side"><span class="t-icon">🍽️</span>Jamuan makan</div>
+          </div>
+          <div class="t-row"><div></div><div class="t-connector"></div><div></div></div>
+
+          <div class="t-row">
+            <div class="t-side"></div>
+            <div class="t-time">Selesai</div>
+            <div class="t-side"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- Put your music file in the same folder and set the src below -->
+<audio id="bgm" src="music.mp3" loop preload="auto"></audio>
+
+<script>
+  const bgm = document.getElementById('bgm');
+  const envelope = document.getElementById('envelope-screen');
+  const invite = document.getElementById('invite-screen');
+
+  // best-effort autoplay attempt on load (most mobile browsers will block this
+  // until a tap happens, which is why openInvite() also calls play())
+  window.addEventListener('DOMContentLoaded', () => {
+    bgm.play().catch(() => { /* blocked until user taps the envelope */ });
+  });
+
+  function openInvite() {
+    // start music (this click counts as the user gesture browsers require for audio)
+    bgm.play().catch(() => { /* file missing or blocked, ignore */ });
+
+    envelope.classList.add('hidden');
+    setTimeout(() => invite.classList.add('visible'), 200);
+  }
+
+  function toggleMusic(btn) {
+    if (bgm.paused) {
+      bgm.play().catch(() => {});
+      btn.classList.remove('paused');
+    } else {
+      bgm.pause();
+      btn.classList.add('paused');
+    }
+  }
+</script>
+
+</body>
+</html>
