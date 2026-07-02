@@ -171,7 +171,7 @@
     top: 43%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 15%;
+    width: 17%;
     aspect-ratio: 1;
     border-radius: 50%;
     background: radial-gradient(circle at 35% 30%, #e3bdd4, var(--seal) 55%, var(--seal-dark) 100%);
@@ -186,7 +186,7 @@
   .seal::after {
     content: '';
     position: absolute;
-    inset: 18%;
+    inset: 12%;
     border-radius: 50%;
     border: 1px solid rgba(255,255,255,0.35);
   }
@@ -199,7 +199,7 @@
     height: 200%;
     background: linear-gradient(100deg, transparent, rgba(255,255,255,0.65), transparent);
     animation: sealShimmer 3.6s ease-in-out infinite;
-    z-index: 1;
+    z-index: 3;
   }
 
   @keyframes sealShimmer {
@@ -213,12 +213,39 @@
     transform: translate(-50%, -50%) scale(0.6);
   }
 
+  .seal-art {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+  }
+
+  .seal-initials {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 4;
+    font-family: 'Playfair Display', 'Times New Roman', serif;
+    font-weight: 700;
+    font-size: 0.62rem;
+    letter-spacing: 0.5px;
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(90,40,60,0.55);
+  }
+  .seal-initials .amp {
+    font-family: 'Brush Script MT', 'Segoe Script', cursive;
+    font-style: italic;
+    font-weight: 400;
+    margin: 0 1px;
+  }
+
   /* baby's breath sprig above seal */
   .sprig {
     position: absolute;
-    top: 20%;
+    top: 18%;
     left: 53%;
-    width: 14%;
+    width: 16%;
     transform: translateX(-50%);
     z-index: 2;
   }
@@ -246,9 +273,9 @@
 
   .corner-flowers {
     position: absolute;
-    bottom: -14%;
-    right: -6%;
-    width: 40%;
+    bottom: -16%;
+    right: -8%;
+    width: 46%;
     z-index: 4;
   }
 
@@ -501,12 +528,12 @@
 
   .corner-decor {
     position: absolute;
-    width: 30%;
+    width: 34%;
     z-index: 2;
     pointer-events: none;
   }
-  .decor-tl { top: -10%; left: -10%; }
-  .decor-br { bottom: -10%; right: -10%; }
+  .decor-tl { top: -12%; left: -12%; }
+  .decor-br { bottom: -12%; right: -12%; }
 
   /* Timeline */
   .timeline {
@@ -558,7 +585,7 @@
 
   @media (max-width: 340px) {
     .t-row { grid-template-columns: 1fr 56px 1fr; }
-    .corner-decor { width: 26%; }
+    .corner-decor { width: 30%; }
   }
 
   /* ============ FLOATING MUSIC BUTTON ============ */
@@ -832,79 +859,165 @@
 </head>
 <body>
 
-<!-- Shared gradients & botanical symbols reused by every decorative flower below -->
+<!-- Shared gradients & botanical symbols reused by every decorative flower below.
+     Palette + shapes redrawn to match the reference bouquet: deep indigo-blue
+     morning-glory blooms, a violet/plum thistle-aster centerpiece, blush
+     cherry-blossom clusters, and layered two-tone green leaves. -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
-    <radialGradient id="petGradBlue" cx="50%" cy="82%" r="85%">
-      <stop offset="0%" stop-color="#e4eef9"/>
-      <stop offset="55%" stop-color="#8fb0dd"/>
-      <stop offset="100%" stop-color="#5f7fc0"/>
+    <radialGradient id="petGradBlue" cx="42%" cy="30%" r="85%">
+      <stop offset="0%" stop-color="#8ea9de"/>
+      <stop offset="45%" stop-color="#5470c4"/>
+      <stop offset="100%" stop-color="#33438f"/>
     </radialGradient>
-    <radialGradient id="petGradLavender" cx="50%" cy="82%" r="85%">
-      <stop offset="0%" stop-color="#eef0fb"/>
-      <stop offset="55%" stop-color="#a9b8e6"/>
-      <stop offset="100%" stop-color="#6f7fc4"/>
+    <radialGradient id="petGradLavender" cx="42%" cy="28%" r="85%">
+      <stop offset="0%" stop-color="#c9a7dd"/>
+      <stop offset="45%" stop-color="#9a6bc0"/>
+      <stop offset="100%" stop-color="#6e4497"/>
     </radialGradient>
-    <radialGradient id="petGradBlush" cx="50%" cy="82%" r="85%">
-      <stop offset="0%" stop-color="#fff5f6"/>
-      <stop offset="55%" stop-color="#f3c9d4"/>
-      <stop offset="100%" stop-color="#e08fa0"/>
+    <radialGradient id="petGradBlush" cx="50%" cy="78%" r="85%">
+      <stop offset="0%" stop-color="#fff6f4"/>
+      <stop offset="55%" stop-color="#f6c9c2"/>
+      <stop offset="100%" stop-color="#e89f92"/>
     </radialGradient>
     <radialGradient id="centerGold" cx="35%" cy="30%" r="75%">
       <stop offset="0%" stop-color="#fffaf0"/>
       <stop offset="100%" stop-color="#b98f4f"/>
     </radialGradient>
     <linearGradient id="leafGrad" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#8fae7a"/>
-      <stop offset="100%" stop-color="#4c6b4f"/>
+      <stop offset="0%" stop-color="#a9c98f"/>
+      <stop offset="100%" stop-color="#3f6b4a"/>
+    </linearGradient>
+    <linearGradient id="leafGradDark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6f9767"/>
+      <stop offset="100%" stop-color="#2e4f3a"/>
     </linearGradient>
     <radialGradient id="budGrad" cx="35%" cy="28%" r="75%">
       <stop offset="0%" stop-color="#ffffff"/>
       <stop offset="100%" stop-color="#f0c3cf"/>
     </radialGradient>
+    <radialGradient id="thistleCenter" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#f4b3c6"/>
+      <stop offset="60%" stop-color="#d9748f"/>
+      <stop offset="100%" stop-color="#b04f6c"/>
+    </radialGradient>
 
+    <!-- five-petal morning-glory / hydrangea style bloom, deep indigo blue -->
     <symbol id="blossom-blue" viewBox="0 0 40 40">
       <g>
-        <ellipse cx="20" cy="9" rx="6.5" ry="10" fill="url(#petGradBlue)" transform="rotate(0 20 20)"/>
-        <ellipse cx="20" cy="9" rx="6.5" ry="10" fill="url(#petGradBlue)" transform="rotate(72 20 20)"/>
-        <ellipse cx="20" cy="9" rx="6.5" ry="10" fill="url(#petGradBlue)" transform="rotate(144 20 20)"/>
-        <ellipse cx="20" cy="9" rx="6.5" ry="10" fill="url(#petGradBlue)" transform="rotate(216 20 20)"/>
-        <ellipse cx="20" cy="9" rx="6.5" ry="10" fill="url(#petGradBlue)" transform="rotate(288 20 20)"/>
+        <ellipse cx="20" cy="9" rx="7" ry="10.5" fill="url(#petGradBlue)" transform="rotate(0 20 20)"/>
+        <ellipse cx="20" cy="9" rx="7" ry="10.5" fill="url(#petGradBlue)" transform="rotate(72 20 20)"/>
+        <ellipse cx="20" cy="9" rx="7" ry="10.5" fill="url(#petGradBlue)" transform="rotate(144 20 20)"/>
+        <ellipse cx="20" cy="9" rx="7" ry="10.5" fill="url(#petGradBlue)" transform="rotate(216 20 20)"/>
+        <ellipse cx="20" cy="9" rx="7" ry="10.5" fill="url(#petGradBlue)" transform="rotate(288 20 20)"/>
         <circle cx="20" cy="20" r="4" fill="url(#centerGold)"/>
+        <circle cx="20" cy="20" r="4" fill="none" stroke="#33438f" stroke-width="0.6" opacity="0.4"/>
       </g>
     </symbol>
 
+    <!-- violet/plum five-petal bloom -->
     <symbol id="blossom-lavender" viewBox="0 0 40 40">
       <g>
-        <ellipse cx="20" cy="9" rx="6.5" ry="10" fill="url(#petGradLavender)" transform="rotate(0 20 20)"/>
-        <ellipse cx="20" cy="9" rx="6.5" ry="10" fill="url(#petGradLavender)" transform="rotate(72 20 20)"/>
-        <ellipse cx="20" cy="9" rx="6.5" ry="10" fill="url(#petGradLavender)" transform="rotate(144 20 20)"/>
-        <ellipse cx="20" cy="9" rx="6.5" ry="10" fill="url(#petGradLavender)" transform="rotate(216 20 20)"/>
-        <ellipse cx="20" cy="9" rx="6.5" ry="10" fill="url(#petGradLavender)" transform="rotate(288 20 20)"/>
+        <ellipse cx="20" cy="9" rx="7" ry="10.5" fill="url(#petGradLavender)" transform="rotate(0 20 20)"/>
+        <ellipse cx="20" cy="9" rx="7" ry="10.5" fill="url(#petGradLavender)" transform="rotate(72 20 20)"/>
+        <ellipse cx="20" cy="9" rx="7" ry="10.5" fill="url(#petGradLavender)" transform="rotate(144 20 20)"/>
+        <ellipse cx="20" cy="9" rx="7" ry="10.5" fill="url(#petGradLavender)" transform="rotate(216 20 20)"/>
+        <ellipse cx="20" cy="9" rx="7" ry="10.5" fill="url(#petGradLavender)" transform="rotate(288 20 20)"/>
         <circle cx="20" cy="20" r="4" fill="url(#centerGold)"/>
+        <circle cx="20" cy="20" r="4" fill="none" stroke="#6e4497" stroke-width="0.6" opacity="0.4"/>
       </g>
     </symbol>
 
+    <!-- blush cherry-blossom style bloom, five notched petals -->
     <symbol id="blossom-blush" viewBox="0 0 40 40">
       <g>
-        <ellipse cx="20" cy="9" rx="6.5" ry="10" fill="url(#petGradBlush)" transform="rotate(0 20 20)"/>
-        <ellipse cx="20" cy="9" rx="6.5" ry="10" fill="url(#petGradBlush)" transform="rotate(72 20 20)"/>
-        <ellipse cx="20" cy="9" rx="6.5" ry="10" fill="url(#petGradBlush)" transform="rotate(144 20 20)"/>
-        <ellipse cx="20" cy="9" rx="6.5" ry="10" fill="url(#petGradBlush)" transform="rotate(216 20 20)"/>
-        <ellipse cx="20" cy="9" rx="6.5" ry="10" fill="url(#petGradBlush)" transform="rotate(288 20 20)"/>
-        <circle cx="20" cy="20" r="4" fill="url(#centerGold)"/>
+        <path d="M20 20 C17 13 16 6 20 3 C24 6 23 13 20 20 Z" fill="url(#petGradBlush)" transform="rotate(0 20 20)"/>
+        <path d="M20 20 C17 13 16 6 20 3 C24 6 23 13 20 20 Z" fill="url(#petGradBlush)" transform="rotate(72 20 20)"/>
+        <path d="M20 20 C17 13 16 6 20 3 C24 6 23 13 20 20 Z" fill="url(#petGradBlush)" transform="rotate(144 20 20)"/>
+        <path d="M20 20 C17 13 16 6 20 3 C24 6 23 13 20 20 Z" fill="url(#petGradBlush)" transform="rotate(216 20 20)"/>
+        <path d="M20 20 C17 13 16 6 20 3 C24 6 23 13 20 20 Z" fill="url(#petGradBlush)" transform="rotate(288 20 20)"/>
+        <circle cx="20" cy="20" r="3.4" fill="url(#centerGold)"/>
       </g>
     </symbol>
 
+    <!-- thistle / aster centerpiece bloom, layered fringed petals like the reference -->
     <symbol id="rose-bloom" viewBox="0 0 40 40">
-      <circle cx="20" cy="20" r="17" fill="url(#petGradBlue)" opacity="0.55"/>
-      <circle cx="20" cy="20" r="12" fill="url(#petGradLavender)" opacity="0.85"/>
-      <circle cx="20" cy="20" r="6.5" fill="url(#centerGold)"/>
+      <g stroke="#7a3f5c" stroke-width="0.3">
+        <path d="M20 20 L20 2" transform="rotate(0 20 20)"/>
+        <path d="M20 20 L20 2" transform="rotate(20 20 20)"/>
+        <path d="M20 20 L20 2" transform="rotate(40 20 20)"/>
+        <path d="M20 20 L20 2" transform="rotate(60 20 20)"/>
+        <path d="M20 20 L20 2" transform="rotate(80 20 20)"/>
+        <path d="M20 20 L20 2" transform="rotate(100 20 20)"/>
+        <path d="M20 20 L20 2" transform="rotate(120 20 20)"/>
+        <path d="M20 20 L20 2" transform="rotate(140 20 20)"/>
+        <path d="M20 20 L20 2" transform="rotate(160 20 20)"/>
+        <path d="M20 20 L20 2" transform="rotate(180 20 20)"/>
+        <path d="M20 20 L20 2" transform="rotate(200 20 20)"/>
+        <path d="M20 20 L20 2" transform="rotate(220 20 20)"/>
+        <path d="M20 20 L20 2" transform="rotate(240 20 20)"/>
+        <path d="M20 20 L20 2" transform="rotate(260 20 20)"/>
+        <path d="M20 20 L20 2" transform="rotate(280 20 20)"/>
+        <path d="M20 20 L20 2" transform="rotate(300 20 20)"/>
+        <path d="M20 20 L20 2" transform="rotate(320 20 20)"/>
+        <path d="M20 20 L20 2" transform="rotate(340 20 20)"/>
+      </g>
+      <circle cx="20" cy="20" r="15" fill="url(#petGradLavender)" opacity="0.28"/>
+      <circle cx="20" cy="20" r="11" fill="url(#petGradBlush)" opacity="0.9"/>
+      <circle cx="20" cy="20" r="6.5" fill="url(#thistleCenter)"/>
+      <circle cx="20" cy="20" r="6.5" fill="none" stroke="#7a3f5c" stroke-width="0.5" opacity="0.5"/>
     </symbol>
 
     <symbol id="leaf-shape" viewBox="0 0 20 40">
       <path d="M10 40 C1 29 1 11 10 0 C19 11 19 29 10 40 Z" fill="url(#leafGrad)"/>
       <path d="M10 36 L10 5" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+    </symbol>
+
+    <symbol id="leaf-shape-dark" viewBox="0 0 20 40">
+      <path d="M10 40 C1 29 1 11 10 0 C19 11 19 29 10 40 Z" fill="url(#leafGradDark)"/>
+      <path d="M10 36 L10 5" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+    </symbol>
+
+    <!-- reusable full bouquet cluster matching the reference composition:
+         big blue blooms lower-left, thistle centerpiece mid, blush sprays
+         lower-right, leaves threading throughout -->
+    <symbol id="bouquet-cluster" viewBox="0 0 220 200">
+      <g stroke="url(#leafGrad)" stroke-width="2.6" fill="none" stroke-linecap="round">
+        <path d="M110 200 C100 150 108 100 128 60"/>
+        <path d="M108 145 C82 132 60 118 45 100"/>
+        <path d="M118 108 C138 96 152 82 165 62"/>
+        <path d="M112 165 C130 168 150 172 168 185"/>
+      </g>
+      <use href="#leaf-shape" x="50" y="98" width="22" height="36" transform="rotate(-38 61 116)"/>
+      <use href="#leaf-shape-dark" x="132" y="56" width="20" height="32" transform="rotate(32 142 72)"/>
+      <use href="#leaf-shape" x="96" y="150" width="18" height="30" transform="rotate(-6 105 165)"/>
+      <use href="#leaf-shape-dark" x="145" y="150" width="18" height="30" transform="rotate(20 154 165)"/>
+
+      <!-- blue bloom cluster, lower left -->
+      <use href="#blossom-blue" x="26" y="118" width="26" height="26"/>
+      <use href="#blossom-blue" x="42" y="104" width="24" height="24"/>
+      <use href="#blossom-blue" x="56" y="120" width="26" height="26"/>
+      <use href="#blossom-blue" x="38" y="136" width="22" height="22"/>
+      <use href="#blossom-blue" x="52" y="142" width="20" height="20"/>
+      <use href="#blossom-blue" x="20" y="140" width="20" height="20"/>
+      <use href="#blossom-lavender" x="68" y="134" width="20" height="20"/>
+
+      <!-- small violet blooms upper area -->
+      <use href="#blossom-lavender" x="128" y="34" width="24" height="24"/>
+      <use href="#blossom-lavender" x="144" y="26" width="20" height="20"/>
+      <use href="#blossom-lavender" x="122" y="20" width="18" height="18"/>
+
+      <!-- thistle centerpiece -->
+      <use href="#rose-bloom" x="118" y="86" width="52" height="52"/>
+
+      <!-- blush spray, right/lower -->
+      <use href="#blossom-blush" x="150" y="140" width="20" height="20"/>
+      <use href="#blossom-blush" x="166" y="128" width="18" height="18"/>
+      <use href="#blossom-blush" x="178" y="148" width="19" height="19"/>
+      <use href="#blossom-blush" x="160" y="160" width="17" height="17"/>
+      <use href="#blossom-blush" x="145" y="168" width="16" height="16"/>
+      <use href="#blossom-blush" x="180" y="168" width="15" height="15"/>
+      <use href="#blossom-blush" x="192" y="152" width="14" height="14"/>
     </symbol>
   </defs>
 </svg>
@@ -937,7 +1050,19 @@
         <circle cx="100" cy="80" r="11" fill="var(--ribbon-dark)"/>
       </svg>
 
-      <!-- baby's breath sprig -->
+      <!-- wax seal with mini flower design + I & A initials -->
+      <div class="seal">
+        <svg class="seal-art" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+          <use href="#leaf-shape" x="6" y="34" width="9" height="16" transform="rotate(-30 10 42)" opacity="0.9"/>
+          <use href="#leaf-shape" x="45" y="34" width="9" height="16" transform="rotate(30 50 42)" opacity="0.9"/>
+          <use href="#blossom-blue" x="6" y="30" width="15" height="15" opacity="0.95"/>
+          <use href="#blossom-lavender" x="39" y="30" width="15" height="15" opacity="0.95"/>
+          <use href="#blossom-blush" x="22" y="34" width="16" height="16" opacity="0.95"/>
+        </svg>
+        <div class="seal-initials">I<span class="amp">&amp;</span>A</div>
+      </div>
+
+      <!-- baby's breath sprig above seal -->
       <svg class="sprig" viewBox="0 0 60 90" xmlns="http://www.w3.org/2000/svg">
         <path d="M30 90 L26 30 M26 30 L14 10 M26 30 L34 6 M26 30 L22 45" stroke="#7c8f66" stroke-width="1.4" fill="none"/>
         <circle cx="14" cy="10" r="3" fill="url(#budGrad)"/>
@@ -947,32 +1072,9 @@
         <circle cx="18" cy="34" r="2.5" fill="url(#budGrad)"/>
       </svg>
 
-      <!-- corner flower bouquet -->
-      <svg class="corner-flowers" viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
-        <g stroke="url(#leafGrad)" stroke-width="2.5" fill="none" stroke-linecap="round">
-          <path d="M100 180 C95 130 100 90 115 55"/>
-          <path d="M100 130 C80 120 65 110 55 100"/>
-          <path d="M105 100 C120 90 130 80 140 65"/>
-        </g>
-        <use href="#leaf-shape" x="46" y="92" width="20" height="34" transform="rotate(-35 56 109)"/>
-        <use href="#leaf-shape" x="122" y="52" width="18" height="30" transform="rotate(35 131 67)"/>
-        <use href="#leaf-shape" x="88" y="138" width="16" height="26" transform="rotate(-8 96 151)"/>
-
-        <!-- hydrangea cluster -->
-        <use href="#blossom-blue" x="24" y="115" width="20" height="20"/>
-        <use href="#blossom-blue" x="36" y="105" width="19" height="19"/>
-        <use href="#blossom-blue" x="47" y="118" width="20" height="20"/>
-        <use href="#blossom-blue" x="33" y="128" width="18" height="18"/>
-        <use href="#blossom-blue" x="42" y="134" width="17" height="17"/>
-        <use href="#blossom-blue" x="19" y="128" width="17" height="17"/>
-
-        <!-- carnation top -->
-        <use href="#blossom-lavender" x="106" y="40" width="20" height="20"/>
-        <use href="#blossom-lavender" x="117" y="33" width="17" height="17"/>
-        <use href="#blossom-lavender" x="101" y="30" width="17" height="17"/>
-
-        <!-- rose -->
-        <use href="#rose-bloom" x="128" y="93" width="44" height="44"/>
+      <!-- corner flower bouquet, matches reference image composition -->
+      <svg class="corner-flowers" viewBox="0 0 220 200" xmlns="http://www.w3.org/2000/svg">
+        <use href="#bouquet-cluster" x="0" y="0" width="220" height="200"/>
       </svg>
     </div>
     <div class="tap-hint">tap to open</div>
@@ -995,37 +1097,13 @@
       </div>
 
       <div class="monogram-card reveal-on-scroll">
-        <!-- decorative flowers around monogram -->
-        <svg class="monogram-flowers-left" viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
-          <g stroke="url(#leafGrad)" stroke-width="2.5" fill="none" stroke-linecap="round">
-            <path d="M100 220 C95 160 100 110 120 70"/>
-            <path d="M100 160 C75 150 55 138 40 125"/>
-          </g>
-          <use href="#leaf-shape" x="80" y="80" width="17" height="28" transform="rotate(30 88 94)"/>
-          <use href="#leaf-shape" x="55" y="118" width="16" height="26" transform="rotate(-35 63 131)"/>
-
-          <use href="#blossom-blush" x="34" y="130" width="20" height="20"/>
-          <use href="#blossom-blush" x="47" y="120" width="19" height="19"/>
-          <use href="#blossom-blush" x="59" y="132" width="20" height="20"/>
-          <use href="#blossom-blush" x="45" y="142" width="18" height="18"/>
-          <use href="#blossom-blush" x="30" y="145" width="17" height="17"/>
-
-          <use href="#blossom-lavender" x="109" y="55" width="18" height="18"/>
-          <use href="#blossom-lavender" x="124" y="65" width="16" height="16"/>
-          <use href="#blossom-lavender" x="99" y="70" width="16" height="16"/>
-
-          <use href="#rose-bloom" x="132" y="82" width="36" height="36"/>
+        <!-- decorative flowers around monogram, same bouquet style -->
+        <svg class="monogram-flowers-left" viewBox="0 0 220 200" xmlns="http://www.w3.org/2000/svg">
+          <use href="#bouquet-cluster" x="0" y="0" width="220" height="200"/>
         </svg>
 
-        <svg class="monogram-flowers-right" viewBox="0 0 160 140" xmlns="http://www.w3.org/2000/svg">
-          <path d="M30 30 C25 55 35 80 45 100" stroke="url(#leafGrad)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-          <use href="#leaf-shape" x="33" y="55" width="14" height="24" transform="rotate(15 40 67)"/>
-          <use href="#blossom-blush" x="20" y="20" width="21" height="21"/>
-          <use href="#blossom-blush" x="38" y="13" width="18" height="18"/>
-          <use href="#blossom-blush" x="45" y="32" width="19" height="19"/>
-          <use href="#blossom-lavender" x="81" y="51" width="17" height="17"/>
-          <use href="#blossom-lavender" x="91" y="42" width="16" height="16"/>
-          <use href="#blossom-lavender" x="99" y="57" width="16" height="16"/>
+        <svg class="monogram-flowers-right" viewBox="0 0 220 200" xmlns="http://www.w3.org/2000/svg">
+          <use href="#bouquet-cluster" x="0" y="0" width="220" height="200" transform="scale(-1,1) translate(-220,0)"/>
         </svg>
 
         <!-- small sprig tucked beside the crest -->
@@ -1052,23 +1130,11 @@
 
       <!-- INFO CARD -->
       <div class="info-card reveal-on-scroll">
-        <svg class="corner-decor decor-tl" viewBox="0 0 160 140" xmlns="http://www.w3.org/2000/svg">
-          <path d="M40 40 C35 65 45 90 55 110" stroke="url(#leafGrad)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-          <use href="#leaf-shape" x="42" y="63" width="13" height="22" transform="rotate(10 48 74)"/>
-          <use href="#blossom-blue" x="30" y="30" width="20" height="20"/>
-          <use href="#blossom-blue" x="45" y="20" width="18" height="18"/>
-          <use href="#blossom-blue" x="50" y="42" width="18" height="18"/>
-          <use href="#blossom-blush" x="70" y="10" width="17" height="17"/>
-          <use href="#blossom-blush" x="86" y="20" width="15" height="15"/>
+        <svg class="corner-decor decor-tl" viewBox="0 0 220 200" xmlns="http://www.w3.org/2000/svg">
+          <use href="#bouquet-cluster" x="0" y="0" width="220" height="200" transform="scale(0.85) rotate(6 110 100)"/>
         </svg>
-        <svg class="corner-decor decor-br" viewBox="0 0 160 140" xmlns="http://www.w3.org/2000/svg">
-          <path d="M120 100 C125 75 115 50 105 30" stroke="url(#leafGrad)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-          <use href="#leaf-shape" x="105" y="55" width="13" height="22" transform="rotate(-12 111 66)"/>
-          <use href="#blossom-lavender" x="110" y="90" width="20" height="20"/>
-          <use href="#blossom-lavender" x="95" y="100" width="18" height="18"/>
-          <use href="#blossom-lavender" x="90" y="78" width="18" height="18"/>
-          <use href="#blossom-blush" x="70" y="112" width="17" height="17"/>
-          <use href="#blossom-blush" x="55" y="100" width="15" height="15"/>
+        <svg class="corner-decor decor-br" viewBox="0 0 220 200" xmlns="http://www.w3.org/2000/svg">
+          <use href="#bouquet-cluster" x="0" y="0" width="220" height="200" transform="scale(-0.85,-0.85) translate(-260,-235) rotate(6 110 100)"/>
         </svg>
 
         <div class="heading">Pada Hari</div>
@@ -1090,23 +1156,11 @@
 
       <!-- ITINERARY CARD -->
       <div class="info-card reveal-on-scroll" style="padding-bottom:52px;">
-        <svg class="corner-decor decor-tl" viewBox="0 0 160 140" xmlns="http://www.w3.org/2000/svg">
-          <path d="M40 40 C35 65 45 90 55 110" stroke="url(#leafGrad)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-          <use href="#leaf-shape" x="42" y="63" width="13" height="22" transform="rotate(10 48 74)"/>
-          <use href="#blossom-blue" x="30" y="30" width="20" height="20"/>
-          <use href="#blossom-blue" x="45" y="20" width="18" height="18"/>
-          <use href="#blossom-blue" x="50" y="42" width="18" height="18"/>
-          <use href="#blossom-blush" x="70" y="10" width="17" height="17"/>
-          <use href="#blossom-blush" x="86" y="20" width="15" height="15"/>
+        <svg class="corner-decor decor-tl" viewBox="0 0 220 200" xmlns="http://www.w3.org/2000/svg">
+          <use href="#bouquet-cluster" x="0" y="0" width="220" height="200" transform="scale(0.85) rotate(6 110 100)"/>
         </svg>
-        <svg class="corner-decor decor-br" viewBox="0 0 160 140" xmlns="http://www.w3.org/2000/svg">
-          <path d="M120 100 C125 75 115 50 105 30" stroke="url(#leafGrad)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-          <use href="#leaf-shape" x="105" y="55" width="13" height="22" transform="rotate(-12 111 66)"/>
-          <use href="#blossom-lavender" x="110" y="90" width="20" height="20"/>
-          <use href="#blossom-lavender" x="95" y="100" width="18" height="18"/>
-          <use href="#blossom-lavender" x="90" y="78" width="18" height="18"/>
-          <use href="#blossom-blush" x="70" y="112" width="17" height="17"/>
-          <use href="#blossom-blush" x="55" y="100" width="15" height="15"/>
+        <svg class="corner-decor decor-br" viewBox="0 0 220 200" xmlns="http://www.w3.org/2000/svg">
+          <use href="#bouquet-cluster" x="0" y="0" width="220" height="200" transform="scale(-0.85,-0.85) translate(-260,-235) rotate(6 110 100)"/>
         </svg>
 
         <div class="heading" style="margin-bottom:26px;">Atur Cara Majlis</div>
@@ -1208,7 +1262,7 @@
   }
 
   // ============ FALLING PETALS ============
-  const petalColors = ['#dcebf1', '#f3c9d4', '#a3c1e0', '#e78fa0'];
+  const petalColors = ['#dcebf1', '#f3c9d4', '#5470c4', '#e78fa0'];
   const petalsContainer = document.getElementById('petals');
 
   function spawnPetal() {
