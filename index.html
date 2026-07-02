@@ -428,6 +428,50 @@
     .t-row { grid-template-columns: 1fr 56px 1fr; }
     .corner-decor { width: 26%; }
   }
+
+  /* ============ FLOATING MUSIC BUTTON ============ */
+  .music-fab {
+    position: fixed;
+    bottom: calc(18px + env(safe-area-inset-bottom));
+    right: 18px;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: none;
+    background: var(--ink);
+    color: var(--card-soft);
+    box-shadow: 0 8px 18px -6px rgba(20,40,70,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    cursor: pointer;
+    z-index: 5;
+    opacity: 0;
+    transform: scale(0.8);
+    pointer-events: none;
+    transition: opacity 0.4s ease 0.3s, transform 0.4s ease 0.3s;
+  }
+
+  .music-fab.visible {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+  }
+
+  .music-fab-icon {
+    animation: spinNote 3.5s linear infinite;
+    display: inline-block;
+  }
+
+  .music-fab.paused .music-fab-icon {
+    animation-play-state: paused;
+  }
+
+  @keyframes spinNote {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
 </style>
 </head>
 <body>
@@ -551,7 +595,7 @@
         <div class="heading">Bertempat Di</div>
         <div class="icon">📍</div>
         <div class="value">7, Jalan Restu 5, Taman Sri Puteri,<br>Meru, 41050 Klang, Selangor</div>
-        <button class="map-btn">PETA LOKASI</button>
+        <button class="map-btn" onclick="window.open('https://maps.app.goo.gl/8QasPaMPnA4SgKvV6', '_blank')">PETA LOKASI</button>
 
         <div class="heading">Masa</div>
         <div class="icon">🕐</div>
@@ -613,6 +657,11 @@
     </div>
   </div>
 
+  <!-- floating music control, shows once envelope is opened -->
+  <button id="music-toggle" class="music-fab" onclick="toggleMusic(this)" aria-label="Play or pause music">
+    <span class="music-fab-icon">♪</span>
+  </button>
+
 </div>
 
 <!-- Put your music file in the same folder and set the src below -->
@@ -622,19 +671,24 @@
   const bgm = document.getElementById('bgm');
   const envelope = document.getElementById('envelope-screen');
   const invite = document.getElementById('invite-screen');
+  const musicFab = document.getElementById('music-toggle');
 
-  // best-effort autoplay attempt on load (most mobile browsers will block this
-  // until a tap happens, which is why openInvite() also calls play())
+  // Mobile browsers block autoplay until the user taps something on the page.
+  // That's exactly what clicking the envelope provides, so music reliably
+  // starts at that point even though this early attempt on load will fail.
   window.addEventListener('DOMContentLoaded', () => {
-    bgm.play().catch(() => { /* blocked until user taps the envelope */ });
+    bgm.play().catch(() => { /* blocked until user taps the envelope, that's expected */ });
   });
 
   function openInvite() {
-    // start music (this click counts as the user gesture browsers require for audio)
-    bgm.play().catch(() => { /* file missing or blocked, ignore */ });
+    // this click is the "user gesture" browsers require before allowing audio
+    bgm.play().catch(() => { /* music.mp3 missing, or still blocked */ });
 
     envelope.classList.add('hidden');
     setTimeout(() => invite.classList.add('visible'), 200);
+
+    // reveal the floating music control now that the card is open
+    musicFab.classList.add('visible');
   }
 
   function toggleMusic(btn) {
