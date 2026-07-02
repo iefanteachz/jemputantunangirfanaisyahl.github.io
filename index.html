@@ -213,12 +213,6 @@
     transform: translate(-50%, -50%) scale(0.6);
   }
 
-  .seal-art {
-    position: absolute;
-    inset: 0;
-    z-index: 2;
-  }
-
   .seal-initials {
     position: absolute;
     inset: 0;
@@ -228,16 +222,63 @@
     z-index: 4;
     font-family: 'Playfair Display', 'Times New Roman', serif;
     font-weight: 700;
-    font-size: 0.62rem;
+    font-size: clamp(0.85rem, 3vw, 1.05rem);
     letter-spacing: 0.5px;
     color: #fff;
     text-shadow: 0 1px 2px rgba(90,40,60,0.55);
+  }
+
+  .seal-initials .seal-letter,
+  .seal-initials .amp {
+    display: inline-block;
+    opacity: 0;
+  }
+
+  .seal-initials .letter-i {
+    transform: translateX(10px) scale(0.3);
+  }
+  .seal-initials .letter-a {
+    transform: translateX(-10px) scale(0.3);
   }
   .seal-initials .amp {
     font-family: 'Brush Script MT', 'Segoe Script', cursive;
     font-style: italic;
     font-weight: 400;
-    margin: 0 1px;
+    margin: 0 2px;
+    transform: scale(0.2) rotate(-15deg);
+  }
+
+  /* letters sit collapsed at the seal's center until the envelope is
+     tapped, then spring outward into their resting positions */
+  .envelope-wrap.opening .seal-initials .letter-i {
+    animation: sealLetterFromRight 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    animation-delay: 0.05s;
+  }
+  .envelope-wrap.opening .seal-initials .amp {
+    animation: sealAmpPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    animation-delay: 0.22s;
+  }
+  .envelope-wrap.opening .seal-initials .letter-a {
+    animation: sealLetterFromLeft 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    animation-delay: 0.35s;
+  }
+
+  @keyframes sealLetterFromRight {
+    0%   { opacity: 0; transform: translateX(10px) scale(0.3); }
+    55%  { opacity: 1; }
+    100% { opacity: 1; transform: translateX(0) scale(1); }
+  }
+
+  @keyframes sealLetterFromLeft {
+    0%   { opacity: 0; transform: translateX(-10px) scale(0.3); }
+    55%  { opacity: 1; }
+    100% { opacity: 1; transform: translateX(0) scale(1); }
+  }
+
+  @keyframes sealAmpPop {
+    0%   { opacity: 0; transform: scale(0.2) rotate(-15deg); }
+    55%  { opacity: 1; }
+    100% { opacity: 1; transform: scale(1) rotate(0deg); }
   }
 
   /* baby's breath sprig above seal */
@@ -557,7 +598,12 @@
     padding: 0 2px;
   }
 
-  .t-side .t-icon { font-size: 1.5rem; display: block; margin-bottom: 4px; }
+  .t-side .t-icon {
+    font-size: 1.5rem;
+    display: block;
+    margin-bottom: 4px;
+    transform: translateY(-8px);
+  }
 
   .t-time {
     text-align: center;
@@ -849,6 +895,12 @@
     .t-connector::after { animation: none; opacity: 0.7; }
     .petal { display: none; }
     .tap-hint { animation: none; }
+    .seal-initials .seal-letter,
+    .seal-initials .amp {
+      opacity: 1 !important;
+      transform: none !important;
+      animation: none !important;
+    }
     .reveal-on-scroll {
       opacity: 1;
       transform: none;
@@ -1050,16 +1102,11 @@
         <circle cx="100" cy="80" r="11" fill="var(--ribbon-dark)"/>
       </svg>
 
-      <!-- wax seal with mini flower design + I & A initials -->
+      <!-- plain wax seal, letters animate outward when the envelope opens -->
       <div class="seal">
-        <svg class="seal-art" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
-          <use href="#leaf-shape" x="6" y="34" width="9" height="16" transform="rotate(-30 10 42)" opacity="0.9"/>
-          <use href="#leaf-shape" x="45" y="34" width="9" height="16" transform="rotate(30 50 42)" opacity="0.9"/>
-          <use href="#blossom-blue" x="6" y="30" width="15" height="15" opacity="0.95"/>
-          <use href="#blossom-lavender" x="39" y="30" width="15" height="15" opacity="0.95"/>
-          <use href="#blossom-blush" x="22" y="34" width="16" height="16" opacity="0.95"/>
-        </svg>
-        <div class="seal-initials">I<span class="amp">&amp;</span>A</div>
+        <div class="seal-initials">
+          <span class="seal-letter letter-i">I</span><span class="amp">&amp;</span><span class="seal-letter letter-a">A</span>
+        </div>
       </div>
 
       <!-- baby's breath sprig above seal -->
@@ -1167,32 +1214,48 @@
 
         <div class="timeline">
           <div class="t-row">
-            <div class="t-side"><span class="t-icon">🤝</span>ketibaan jemputan</div>
+            <div class="t-side"></div>
             <div class="t-time">9.30am</div>
             <div class="t-side"></div>
           </div>
-          <div class="t-row"><div></div><div class="t-connector"></div><div></div></div>
+          <div class="t-row">
+            <div class="t-side"><span class="t-icon">🤝</span>ketibaan jemputan</div>
+            <div class="t-connector"></div>
+            <div class="t-side"></div>
+          </div>
 
           <div class="t-row">
             <div class="t-side"></div>
             <div class="t-time">11am</div>
+            <div class="t-side"></div>
+          </div>
+          <div class="t-row">
+            <div class="t-side"></div>
+            <div class="t-connector"></div>
             <div class="t-side"><span class="t-icon">💍</span>sarung cincin</div>
           </div>
-          <div class="t-row"><div></div><div class="t-connector"></div><div></div></div>
 
           <div class="t-row">
-            <div class="t-side"><span class="t-icon">📷</span>Sesi bergambar</div>
+            <div class="t-side"></div>
             <div class="t-time">12pm</div>
             <div class="t-side"></div>
           </div>
-          <div class="t-row"><div></div><div class="t-connector"></div><div></div></div>
+          <div class="t-row">
+            <div class="t-side"><span class="t-icon">📷</span>Sesi bergambar</div>
+            <div class="t-connector"></div>
+            <div class="t-side"></div>
+          </div>
 
           <div class="t-row">
             <div class="t-side"></div>
             <div class="t-time">2pm</div>
+            <div class="t-side"></div>
+          </div>
+          <div class="t-row">
+            <div class="t-side"></div>
+            <div class="t-connector"></div>
             <div class="t-side"><span class="t-icon">🍽️</span>Jamuan makan</div>
           </div>
-          <div class="t-row"><div></div><div class="t-connector"></div><div></div></div>
 
           <div class="t-row">
             <div class="t-side"></div>
